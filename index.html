@@ -10,9 +10,41 @@ body{margin:0;background:#FFFFFF}
 html{scroll-behavior:smooth}
 a{color:#000000}a:hover{color:#10106B}
 @media (max-width: 600px){main section > video{width:62%!important}#more{width:70%;margin-left:auto!important;margin-right:auto!important}}
+#gate{position:fixed;inset:0;z-index:100;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'Times New Roman',Times,serif;color:#10106B}
+#gate form{display:flex;flex-direction:column;align-items:center;gap:14px}
+#gate h1{margin:0;font-size:20px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+#gate input{font:inherit;font-size:16px;color:#10106B;border:0;border-bottom:1px solid #10106B;outline:0;background:transparent;text-align:center;width:180px;padding:4px 0}
+#gate button{font:inherit;font-size:15px;color:#000;background:none;border:0;text-decoration:underline;cursor:pointer;padding:0}
+#gate .err{min-height:16px;font-size:12px}
+body.locked{overflow:hidden}
 </style>
 </head>
-<body>
+<body class="locked">
+<div id="gate"><form id="gate-form" autocomplete="off">
+  <h1>ROMAN KISSLING</h1>
+  <input id="gate-pw" type="password" placeholder="Password" aria-label="Password" autofocus>
+  <button type="submit">Enter</button>
+  <span class="err" id="gate-err" aria-live="polite"></span>
+</form></div>
+<script>
+(function(){
+  var H='4eaae75f1df2f52bda44f6b18a400542d51c81bd7c00b0e720be5dc2c997575d';
+  function unlock(){
+    document.querySelectorAll('video').forEach(function(v){v.poster=v.dataset.poster;v.src=v.dataset.src;});
+    document.getElementById('gate').remove();document.body.classList.remove('locked');
+  }
+  async function hash(t){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');}
+  try{if(sessionStorage.getItem('rk-ok')===H){document.addEventListener('DOMContentLoaded',unlock);}}catch(e){}
+  document.addEventListener('DOMContentLoaded',function(){
+    var f=document.getElementById('gate-form');if(!f)return;
+    f.addEventListener('submit',async function(e){
+      e.preventDefault();var i=document.getElementById('gate-pw');
+      if(await hash(i.value.trim().toLowerCase())===H){try{sessionStorage.setItem('rk-ok',H)}catch(e){}unlock();}
+      else{document.getElementById('gate-err').textContent='Incorrect password';i.value='';i.focus();}
+    });
+  });
+})();
+</script>
 <div style="min-height: 100vh; background: #FFFFFF; color: #10106B; font-family: 'Times New Roman', Times, serif; font-size: 12px; line-height: 1.35">
 
   <main id="top" style="padding: 40px 10px 160px">
@@ -21,39 +53,39 @@ a{color:#000000}a:hover{color:#10106B}
       <section id="frank-filler" style="display: flex; flex-direction: column">
         <h2 style="margin: 0; text-align: center; font-size: 20px; font-weight: 700; color: #10106B; text-decoration: underline; text-underline-offset: 3px">FRANK FILLER</h2>
         <p style="margin: 2px 0 0; text-align: center; font-size: 22px; font-weight: 700">Fall Winter 26</p>
-        <video src="videos/frank-filler.mp4" poster="videos/frank-filler.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Frank Filler Fall Winter 26 film" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 16 / 9; background: #000000"></video>
+        <video data-src="videos/frank-filler.mp4" data-poster="videos/frank-filler.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Frank Filler Fall Winter 26 film" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 16 / 9; background: #000000"></video>
       </section>
 
       <section id="mowalola" style="display: flex; flex-direction: column; margin-top: 64px">
         <h2 style="margin: 0; text-align: center; font-size: 20px; font-weight: 700; color: #10106B; text-decoration: underline; text-underline-offset: 3px">MOWALOLA</h2>
         <p style="margin: 2px 0 0; text-align: center; font-size: 22px; font-weight: 700">The Hunger</p>
-        <video src="videos/mowalola.mp4" poster="videos/mowalola.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Mowalola The Hunger" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 16 / 9; background: #000000"></video>
+        <video data-src="videos/mowalola.mp4" data-poster="videos/mowalola.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Mowalola The Hunger" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 16 / 9; background: #000000"></video>
         <p style="margin: 4px 0 0; text-align: center">[01] Mowalola, The Hunger, 0:31.</p>
       </section>
 
       <section id="music-videos" style="display: flex; flex-direction: column; margin-top: 64px">
         <h2 style="margin: 0; text-align: center; font-size: 20px; font-weight: 700; color: #10106B; text-decoration: underline; text-underline-offset: 3px">HVN</h2>
-        <video src="videos/hvn.mp4" poster="videos/hvn.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="HVN" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 4 / 3; background: #000000"></video>
+        <video data-src="videos/hvn.mp4" data-poster="videos/hvn.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="HVN" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 4 / 3; background: #000000"></video>
         <p style="margin: 4px 0 0; text-align: center">[02] HVN, 0:42.</p>
       </section>
 
       <section id="esc" style="display: flex; flex-direction: column; margin-top: 64px">
         <h2 style="margin: 0; text-align: center; font-size: 20px; font-weight: 700; color: #10106B; text-decoration: underline; text-underline-offset: 3px">ESC</h2>
-        <video src="videos/esc.mp4" poster="videos/esc.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="ESC" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 962 / 720; background: #000000"></video>
+        <video data-src="videos/esc.mp4" data-poster="videos/esc.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="ESC" style="display: block; margin: 28px auto 0; width: 440px; max-width: 100%; aspect-ratio: 962 / 720; background: #000000"></video>
         <p style="margin: 4px 0 0; text-align: center">[03] ESC, 0:14.</p>
       </section>
 
       <section id="more" aria-label="More films" style="display: flex; gap: 8px; align-items: flex-start; margin-top: 64px">
         <div style="flex: 1.778 1 0; min-width: 0; display: flex; flex-direction: column">
-          <video src="videos/04.mp4" poster="videos/04.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Film 4" style="display: block; width: 100%; aspect-ratio: 16 / 9; background: #000000"></video>
+          <video data-src="videos/04.mp4" data-poster="videos/04.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Film 4" style="display: block; width: 100%; aspect-ratio: 16 / 9; background: #000000"></video>
           <span style="margin-top: 4px; text-align: center">[04] 0:13.</span>
         </div>
         <div style="flex: 0.5625 1 0; min-width: 0; display: flex; flex-direction: column">
-          <video src="videos/05.mp4" poster="videos/05.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Film 5" style="display: block; width: 100%; aspect-ratio: 9 / 16; background: #000000"></video>
+          <video data-src="videos/05.mp4" data-poster="videos/05.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Film 5" style="display: block; width: 100%; aspect-ratio: 9 / 16; background: #000000"></video>
           <span style="margin-top: 4px; text-align: center">[05] 0:17.</span>
         </div>
         <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column">
-          <video src="videos/06.mp4" poster="videos/06.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Film 6" style="display: block; width: 100%; aspect-ratio: 1 / 1; background: #000000"></video>
+          <video data-src="videos/06.mp4" data-poster="videos/06.jpg" controls="controls" preload="metadata" playsinline="playsinline" aria-label="Film 6" style="display: block; width: 100%; aspect-ratio: 1 / 1; background: #000000"></video>
           <span style="margin-top: 4px; text-align: center">[06] 0:35.</span>
         </div>
       </section>
